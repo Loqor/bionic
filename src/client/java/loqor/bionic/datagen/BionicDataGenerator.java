@@ -1,6 +1,6 @@
 package loqor.bionic.datagen;
 
-import loqor.bionic.BionicItems;
+import loqor.bionic.core.BionicItems;
 import loqor.bionic.datagen.providers.BionicLanguageProvider;
 import loqor.bionic.datagen.providers.BionicRecipeProvider;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
@@ -23,6 +23,9 @@ public class BionicDataGenerator implements DataGeneratorEntrypoint {
 		BionicLanguageProvider provider = new BionicLanguageProvider(output, registriesFuture);
 
 		provider.addTranslation(BionicItems.CACTUS_ARMOR_CHESTPLATE, "Cactus Onesie");
+		provider.addTranslation(BionicItems.EGG_GRENADE, "Egg §2Grenade");
+
+		provider.addTranslation("item.bionic.exploding_projectile.tooltip", "What's §binside§r? A §4blast§r that'll leave them §escrambled§r.");
 
 		return provider;
 	}

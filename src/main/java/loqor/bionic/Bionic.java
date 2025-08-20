@@ -1,7 +1,11 @@
 package loqor.bionic;
 
+import loqor.bionic.core.BionicEntityTypes;
+import loqor.bionic.core.BionicItems;
+import loqor.bionic.core.entities.ExplodingChickenEntity;
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,5 +22,11 @@ public class Bionic implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		BionicItems.initialize();
+		BionicEntityTypes.initialize();
+		registerEntityAttributes();
+	}
+
+	public void registerEntityAttributes() {
+		FabricDefaultAttributeRegistry.register(BionicEntityTypes.EXPLODING_CHICKEN, ExplodingChickenEntity.createChickenAttributes());
 	}
 }

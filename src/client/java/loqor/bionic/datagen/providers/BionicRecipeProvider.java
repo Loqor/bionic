@@ -1,6 +1,6 @@
 package loqor.bionic.datagen.providers;
 
-import loqor.bionic.BionicItems;
+import loqor.bionic.core.BionicItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.data.recipe.RecipeExporter;
