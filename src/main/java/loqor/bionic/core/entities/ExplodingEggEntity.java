@@ -18,12 +18,12 @@ import net.minecraft.world.World;
 
 public class ExplodingEggEntity extends ThrownItemEntity {
 
-    public ExplodingEggEntity(World world, LivingEntity owner, ItemStack stack) {
-        super(BionicEntityTypes.EXPLODING_EGG_ENTITY_TYPE, owner, world, stack);
+    public ExplodingEggEntity(World world, LivingEntity owner) {
+        super(BionicEntityTypes.EXPLODING_EGG_ENTITY_TYPE, owner, world);
     }
 
     public ExplodingEggEntity(World world, double x, double y, double z, ItemStack stack) {
-        super(BionicEntityTypes.EXPLODING_EGG_ENTITY_TYPE, x, y, z, world, stack);
+        super(BionicEntityTypes.EXPLODING_EGG_ENTITY_TYPE, x, y, z, world);
     }
 
     public ExplodingEggEntity(EntityType<ExplodingEggEntity> explodingEggEntityEntityType, World world) {
@@ -34,7 +34,7 @@ public class ExplodingEggEntity extends ThrownItemEntity {
         if (status == EntityStatuses.PLAY_DEATH_SOUND_OR_ADD_PROJECTILE_HIT_PARTICLES) {
 
             for(int i = 0; i < 8; ++i) {
-                this.getWorld().addParticleClient(new ItemStackParticleEffect(ParticleTypes.ITEM, this.getStack()), this.getX(), this.getY(), this.getZ(), ((double)this.random.nextFloat() - 0.5) * 0.08, ((double)this.random.nextFloat() - 0.5) * 0.08, ((double)this.random.nextFloat() - 0.5) * 0.08);
+                this.getWorld().addImportantParticle(new ItemStackParticleEffect(ParticleTypes.ITEM, this.getStack()), this.getX(), this.getY(), this.getZ(), ((double)this.random.nextFloat() - 0.5) * 0.08, ((double)this.random.nextFloat() - 0.5) * 0.08, ((double)this.random.nextFloat() - 0.5) * 0.08);
             }
         }
 
@@ -42,7 +42,7 @@ public class ExplodingEggEntity extends ThrownItemEntity {
 
     protected void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
-        entityHitResult.getEntity().serverDamage(this.getDamageSources().thrown(this, this.getOwner()), 0.0F);
+        entityHitResult.getEntity().damage(this.getDamageSources().thrown(this, this.getOwner()), 0.0F);
     }
 
     protected void onCollision(HitResult hitResult) {

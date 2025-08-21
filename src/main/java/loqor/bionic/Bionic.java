@@ -1,5 +1,6 @@
 package loqor.bionic;
 
+import loqor.bionic.core.BionicArmorMaterials;
 import loqor.bionic.core.BionicEntityTypes;
 import loqor.bionic.core.BionicItems;
 import loqor.bionic.core.entities.ExplodingChickenEntity;
@@ -23,6 +24,7 @@ public class Bionic implements ModInitializer {
 	public void onInitialize() {
 		BionicItems.initialize();
 		BionicEntityTypes.initialize();
+		BionicArmorMaterials.initialize();
 		registerEntityAttributes();
 	}
 

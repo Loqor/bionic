@@ -5,17 +5,15 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.passive.ChickenEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 /**
  * Represents an exploding chicken entity.
@@ -36,18 +34,18 @@ public class ExplodingChickenEntity extends ChickenEntity {
         return true;
     }
 
-    public float getLerpedFuseTime(float tickProgress) {
+    public float getClientFuseTime(float tickProgress) {
         return MathHelper.lerp(tickProgress, (float)this.lastFuseTime, (float)this.currentFuseTime) / (float)(this.fuseTime - 2);
     }
 
-    protected void writeCustomData(WriteView view) {
-        super.writeCustomData(view);
-        view.putShort("Fuse", (short)this.fuseTime);
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        nbt.putShort("Fuse", (short)this.fuseTime);
     }
 
-    protected void readCustomData(ReadView view) {
-        super.readCustomData(view);
-        this.fuseTime = view.getShort("Fuse", (short)60);
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        this.fuseTime = nbt.getShort("Fuse");
     }
 
     public void tick() {
@@ -85,7 +83,7 @@ public class ExplodingChickenEntity extends ChickenEntity {
             this.dead = true;
             serverWorld.createExplosion(this, this.getX(), this.getY(), this.getZ(), 2f, World.ExplosionSourceType.MOB);
             this.spawnEffectsCloud();
-            this.onRemoval(serverWorld, Entity.RemovalReason.KILLED);
+            this.onRemoval(Entity.RemovalReason.KILLED);
             this.discard();
         }
 
@@ -111,7 +109,6 @@ public class ExplodingChickenEntity extends ChickenEntity {
         areaEffectCloudEntity.setRadiusOnUse(-0.5F);
         areaEffectCloudEntity.setWaitTime(10);
         areaEffectCloudEntity.setDuration(300);
-        areaEffectCloudEntity.setPotionDurationScale(0.25F);
         areaEffectCloudEntity.setRadiusGrowth(-areaEffectCloudEntity.getRadius() / (float)areaEffectCloudEntity.getDuration());
         return areaEffectCloudEntity;
     }

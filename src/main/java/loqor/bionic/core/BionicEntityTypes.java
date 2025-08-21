@@ -1,12 +1,10 @@
 package loqor.bionic.core;
 
-import loqor.bionic.Bionic;
 import loqor.bionic.core.entities.ExplodingChickenEntity;
 import loqor.bionic.core.entities.ExplodingEggEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -29,7 +27,7 @@ public class BionicEntityTypes {
     }
 
     private static <T extends Entity> EntityType<T> register(RegistryKey<EntityType<?>> key, EntityType.Builder<T> type) {
-        return Registry.register(Registries.ENTITY_TYPE, key, type.build(key));
+        return Registry.register(Registries.ENTITY_TYPE, key, type.build());
     }
 
     private static RegistryKey<EntityType<?>> keyOf(String id) {
