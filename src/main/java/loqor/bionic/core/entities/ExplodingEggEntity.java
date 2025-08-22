@@ -11,9 +11,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
+
+import static net.minecraft.entity.projectile.AbstractWindChargeEntity.EXPLOSION_BEHAVIOR;
 
 
 public class ExplodingEggEntity extends ThrownItemEntity {
@@ -54,7 +57,7 @@ public class ExplodingEggEntity extends ThrownItemEntity {
                 double speed = 0.5 + this.random.nextDouble() * 0.5; // 0.5 - 1.0
                 double velocityX = Math.cos(angle) * speed;
                 double velocityZ = Math.sin(angle) * speed;
-                double velocityY = 0.2 + this.random.nextDouble() * 0.2; // 0.2 - 0.4
+                double velocityY = 0;//0.1 + this.random.nextDouble() * 0.1; // 0.2 - 0.4
 
                 ExplodingChickenEntity chickenEntity = new ExplodingChickenEntity(BionicEntityTypes.EXPLODING_CHICKEN, this.getWorld());
                 chickenEntity.setBreedingAge(-24000);
@@ -65,6 +68,7 @@ public class ExplodingEggEntity extends ThrownItemEntity {
 
             this.getWorld().sendEntityStatus(this, EntityStatuses.PLAY_DEATH_SOUND_OR_ADD_PROJECTILE_HIT_PARTICLES);
             this.discard();
+            this.getWorld().createExplosion(this, null, EXPLOSION_BEHAVIOR, this.getX(), this.getY(), this.getZ(), 1f, false, World.ExplosionSourceType.BLOCK, ParticleTypes.CLOUD, ParticleTypes.EXPLOSION, SoundEvents.ENTITY_GENERIC_EXPLODE);
         }
     }
 

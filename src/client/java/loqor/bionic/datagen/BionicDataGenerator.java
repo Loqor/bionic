@@ -24,8 +24,11 @@ public class BionicDataGenerator implements DataGeneratorEntrypoint {
 
 		provider.addTranslation(BionicItems.CACTUS_ARMOR_CHESTPLATE, "Cactus Onesie");
 		provider.addTranslation(BionicItems.EGG_GRENADE, "Egg §2Grenade");
+		provider.addTranslation(BionicItems.WHIRLWIND_MACE, "Whirlwind Mace Wrecker");
 
-		provider.addTranslation("item.bionic.exploding_projectile.tooltip", "What's §binside§r? A §4blast§r that'll leave them §escrambled§r.");
+		provider.addTranslation("item.bionic.exploding_projectile.tooltip", "§9What's§r §binside§r? §9A§r §4blast§r §9that'll leave them§r §escrambled§r.");
+		provider.addTranslation("item.bionic.whirlwind_mace.tooltip", "§9Born from a§r §draging breeze§r§9, it§r §escatters foes like leaves§r§9...");
+		provider.addTranslation("itemGroup.bionic.bionic_group", "§9§lBionic§r §b§lTrial§r §9§lMod§r");
 
 		return provider;
 	}

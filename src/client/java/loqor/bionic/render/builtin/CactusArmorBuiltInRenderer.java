@@ -3,14 +3,16 @@ package loqor.bionic.render.builtin;
 import loqor.bionic.render.feature_renderer.CactusArmorFeatureRenderer;
 import loqor.bionic.render.model.CactusArmorModel;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
+import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.RotationAxis;
 
 public class CactusArmorBuiltInRenderer implements BuiltinItemRendererRegistry.DynamicItemRenderer {
-    private CactusArmorModel armorModel;
+    private final CactusArmorModel armorModel;
     public CactusArmorBuiltInRenderer() {
         this.armorModel = new CactusArmorModel<>(CactusArmorModel.getTexturedModelData().createModel());
     }
@@ -42,7 +44,8 @@ public class CactusArmorBuiltInRenderer implements BuiltinItemRendererRegistry.D
                 matrices.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(45));
             }
         }
-        this.armorModel.render(matrices, vertexConsumers.getBuffer(this.armorModel.getLayer(CactusArmorFeatureRenderer.TEXTURE)), light, overlay);
+        VertexConsumer vertexConsumer2 = ItemRenderer.getItemGlintConsumer(vertexConsumers, this.armorModel.getLayer(CactusArmorFeatureRenderer.TEXTURE), false, stack.hasGlint());
+        this.armorModel.render(matrices, vertexConsumer2, light, overlay);
         matrices.pop();
     }
 }

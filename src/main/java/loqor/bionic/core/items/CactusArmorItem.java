@@ -23,8 +23,6 @@ public class CactusArmorItem extends ArmorItem implements CustomRendering {
 
         Vec3d vec3d = entity.isPlayer() ? entity.getMovement() : entity.getVelocity();
 
-        System.out.println(vec3d.length() * 100);
-
         if (world.getServer().getTicks() % 20 != 0) return; // Only apply every second (20 ticks)
 
         if (vec3d.getZ() != 0.0) {

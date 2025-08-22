@@ -23,8 +23,8 @@ import java.util.Collection;
 public class ExplodingChickenEntity extends ChickenEntity {
     private int lastFuseTime;
     private int currentFuseTime;
-    private int fuseTime = 60;
-    private static final short DEFAULT_FUSE = 60;
+    private int fuseTime = 90;
+    private static final short DEFAULT_FUSE = 90;
     public ExplodingChickenEntity(EntityType<? extends ChickenEntity> entityType, World world) {
         super(entityType, world);
     }

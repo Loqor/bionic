@@ -6,7 +6,13 @@ import loqor.bionic.core.BionicItems;
 import loqor.bionic.core.entities.ExplodingChickenEntity;
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +21,18 @@ public class Bionic implements ModInitializer {
 	public static final String MOD_ID = "bionic";
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+
+	public static final RegistryKey<ItemGroup> BIONIC_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), of("bionic_group"));
+
+	public static final ItemGroup BIONIC_GROUP = FabricItemGroup.builder()
+			.icon(BionicItems.WHIRLWIND_MACE::getDefaultStack)
+			.displayName(Text.translatable("itemGroup.bionic.bionic_group"))
+			.entries((displayContext, entries) -> {
+				entries.add(BionicItems.CACTUS_ARMOR_CHESTPLATE);
+				entries.add(BionicItems.EGG_GRENADE);
+				entries.add(BionicItems.WHIRLWIND_MACE);
+			})
+			.build();
 
 	public static Identifier of(String path) {
 		return Identifier.of(Bionic.MOD_ID, path);
@@ -26,6 +44,9 @@ public class Bionic implements ModInitializer {
 		BionicEntityTypes.initialize();
 		BionicArmorMaterials.initialize();
 		registerEntityAttributes();
+
+		// Register itemgroup
+		Registry.register(Registries.ITEM_GROUP, BIONIC_GROUP_KEY, BIONIC_GROUP);
 	}
 
 	public void registerEntityAttributes() {
