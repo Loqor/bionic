@@ -1,19 +1,21 @@
 package loqor.bionic.core.items;
 
+import loqor.bionic.core.networking.payloads.PlayChargeInstanceS2CPayload;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.component.type.ToolComponent;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.WindChargeEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.MaceItem;
 import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -54,6 +56,15 @@ public class WhirlwindMaceItem extends MaceItem {
             return new TypedActionResult<>(ActionResult.FAIL, stack);
         }
         user.setCurrentHand(hand);
+
+        // Send a packet to start playing the charge sound on the client
+        if (!world.isClient) {
+            PlayChargeInstanceS2CPayload playChargeInstanceS2CPayload = new PlayChargeInstanceS2CPayload(user.getUuid(), this.getMaxUseTime(stack, user));
+            for (ServerPlayerEntity player : PlayerLookup.world((ServerWorld) world)) {
+                ServerPlayNetworking.send(player, playChargeInstanceS2CPayload);
+            }
+        }
+
         world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME, SoundCategory.PLAYERS, 0.5F, 1.0F);
         return new TypedActionResult<>(ActionResult.SUCCESS, stack);
     }

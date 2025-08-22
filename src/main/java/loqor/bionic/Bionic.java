@@ -3,6 +3,7 @@ package loqor.bionic;
 import loqor.bionic.core.BionicArmorMaterials;
 import loqor.bionic.core.BionicEntityTypes;
 import loqor.bionic.core.BionicItems;
+import loqor.bionic.core.BionicPayloads;
 import loqor.bionic.core.entities.ExplodingChickenEntity;
 import net.fabricmc.api.ModInitializer;
 
@@ -43,6 +44,10 @@ public class Bionic implements ModInitializer {
 		BionicItems.initialize();
 		BionicEntityTypes.initialize();
 		BionicArmorMaterials.initialize();
+
+		// This is for the payloads to play the looping charge sound for the mace. - Loqor
+		BionicPayloads.initialize();
+
 		registerEntityAttributes();
 
 		// Register itemgroup

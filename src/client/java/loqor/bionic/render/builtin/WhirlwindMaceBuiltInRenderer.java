@@ -1,18 +1,12 @@
 package loqor.bionic.render.builtin;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import loqor.bionic.Bionic;
-import loqor.bionic.core.items.WhirlwindMaceItem;
-import loqor.bionic.render.feature_renderer.CactusArmorFeatureRenderer;
-import loqor.bionic.render.model.CactusArmorModel;
 import loqor.bionic.render.model.WhirlwindMaceModel;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.model.TridentEntityModel;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
@@ -41,7 +35,7 @@ public class WhirlwindMaceBuiltInRenderer implements BuiltinItemRendererRegistry
                 matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(22.5f));
             }
             case GUI, FIXED -> {
-                matrices.translate(mode == ModelTransformationMode.FIXED ? 0.25f : 0.75f, -0.825f, mode == ModelTransformationMode.FIXED ? -0.5f : 0.5f);
+                matrices.translate(mode == ModelTransformationMode.FIXED ? 0.25f : 0.75f, -0.775f, mode == ModelTransformationMode.FIXED ? -0.5f : 0.5f);
                 matrices.scale(0.6f, 0.6f, 0.6f);
                 matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(mode == ModelTransformationMode.FIXED ? -40f : 40f));
                 matrices.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(22.5f));

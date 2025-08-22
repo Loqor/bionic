@@ -3,6 +3,7 @@ package loqor.bionic.core.entities;
 import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -87,6 +88,14 @@ public class ExplodingChickenEntity extends ChickenEntity {
             this.discard();
         }
 
+    }
+
+    @Override
+    public boolean isInvulnerableTo(DamageSource damageSource) {
+        if (damageSource == this.getWorld().getDamageSources().genericKill()) {
+            return super.isInvulnerableTo(damageSource);
+        }
+        return true;
     }
 
     private void spawnEffectsCloud() {
