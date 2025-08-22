@@ -14,7 +14,7 @@ public class BionicClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		BionicPayloads.initialize(); // Payload receiver class initialization
+		BionicClientPayloads.initialize(); // Payload receiver class initialization
 		registerEntityRenderers();
 		registerBuiltInItemRenderers();
 	}

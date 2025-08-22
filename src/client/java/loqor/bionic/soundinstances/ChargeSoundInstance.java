@@ -13,6 +13,9 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A sound instance played when a player is charging the Whirlwind Mace.
  */
@@ -22,6 +25,8 @@ public class ChargeSoundInstance extends MovingSoundInstance {
     private final PlayerEntity player;
     private final boolean underwater;
 
+    public static final Map<PlayerEntity, ChargeSoundInstance> INSTANCES = new HashMap<>();
+
     public ChargeSoundInstance(PlayerEntity player, boolean underwater) {
         super(underwater ? SoundEvents.ENTITY_MINECART_INSIDE_UNDERWATER : SoundEvents.ENTITY_MINECART_INSIDE, SoundCategory.NEUTRAL, SoundInstance.createRandom());
         this.player = player;
@@ -30,6 +35,10 @@ public class ChargeSoundInstance extends MovingSoundInstance {
         this.repeat = true;
         this.repeatDelay = 0;
         this.volume = 0.0F;
+    }
+
+    public static ChargeSoundInstance giveMeSoundInstance(PlayerEntity player) {
+        return INSTANCES.get(player);
     }
 
     public boolean canPlay() {

@@ -1,6 +1,7 @@
 package loqor.bionic.core.items;
 
 import loqor.bionic.core.networking.payloads.PlayChargeInstanceS2CPayload;
+import loqor.bionic.core.networking.payloads.StopChargeInstanceS2CPayload;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.component.type.AttributeModifierSlot;
@@ -102,6 +103,13 @@ public class WhirlwindMaceItem extends MaceItem {
                             dx, 0.2, dz
                     );
                 }
+            }
+        }
+
+        if (!world.isClient()) {
+            StopChargeInstanceS2CPayload stopChargeInstanceS2CPayload = new StopChargeInstanceS2CPayload(user.getUuid());
+            for (ServerPlayerEntity serverPlayer : PlayerLookup.world((ServerWorld) world)) {
+                ServerPlayNetworking.send(serverPlayer, stopChargeInstanceS2CPayload);
             }
         }
     }
