@@ -8,6 +8,7 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 
 public class WhirlwindMaceModel extends EntityModel<Entity> {
@@ -72,7 +73,7 @@ public class WhirlwindMaceModel extends EntityModel<Entity> {
         bone.render(matrices, vertices, light, overlay, color);
     }
 
-    public void setItemModelAngles(AbstractClientPlayerEntity player, ItemStack stack) {
+    public void setItemModelAngles(PlayerEntity player, ItemStack stack) {
         float rot = player.age * 100 / 360f;
         if (player.getMainHandStack() == stack && player.isUsingItem()) {
             int useTime = stack.getMaxUseTime(player) - player.getItemUseTimeLeft();

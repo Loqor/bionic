@@ -4,12 +4,12 @@ import loqor.bionic.Bionic;
 import loqor.bionic.render.model.WhirlwindMaceModel;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
@@ -23,7 +23,7 @@ public class WhirlwindMaceBuiltInRenderer implements BuiltinItemRendererRegistry
     }
     @Override
     public void render(ItemStack stack, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        AbstractClientPlayerEntity player = MinecraftClient.getInstance().player;
+        PlayerEntity player = MinecraftClient.getInstance().player;
         if (player == null) return;
 
         matrices.push();

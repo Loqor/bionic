@@ -1,6 +1,6 @@
 package loqor.bionic.mixin.client;
 
-import loqor.bionic.core.utils.CustomRendering;
+import loqor.bionic.core.utils.HasCustomItemRendering;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.ArmorFeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
@@ -23,7 +23,7 @@ public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extend
 		@Inject(at = @At("HEAD"), method = "renderArmor", cancellable = true)
 		private void bionic$renderArmor(MatrixStack matrices, VertexConsumerProvider vertexConsumers, T entity, EquipmentSlot armorSlot, int light, A model, CallbackInfo ci) {
 		ItemStack stack = entity.getEquippedStack(EquipmentSlot.CHEST);
-		if (stack.getItem() instanceof CustomRendering) {
+		if (stack.getItem() instanceof HasCustomItemRendering) {
 			ci.cancel();
 		}
 	}

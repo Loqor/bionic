@@ -16,7 +16,6 @@ import net.minecraft.util.math.MathHelper;
 /**
  * A sound instance played when a player is charging the Whirlwind Mace.
  */
-@Environment(EnvType.CLIENT)
 public class ChargeSoundInstance extends MovingSoundInstance {
     private static final float START = 0.0F;
     private static final float END = 0.75F;
@@ -42,7 +41,6 @@ public class ChargeSoundInstance extends MovingSoundInstance {
     }
 
     public void tick() {
-
         if (this.player.getMainHandStack().getItem() instanceof WhirlwindMaceItem maceItem) {
             if (this.player.getItemCooldownManager().getCooldownProgress(maceItem, MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(true)) > 0.0F) {
                 MinecraftClient.getInstance().getSoundManager().stop(this);

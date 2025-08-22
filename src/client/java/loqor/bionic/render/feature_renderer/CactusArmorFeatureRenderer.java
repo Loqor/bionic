@@ -1,7 +1,7 @@
 package loqor.bionic.render.feature_renderer;
 
 import loqor.bionic.Bionic;
-import loqor.bionic.core.utils.CustomRendering;
+import loqor.bionic.core.utils.HasCustomItemRendering;
 import loqor.bionic.render.model.CactusArmorModel;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -30,7 +30,7 @@ public class CactusArmorFeatureRenderer extends FeatureRenderer<AbstractClientPl
 
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, AbstractClientPlayerEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-        if (entity.getEquippedStack(EquipmentSlot.CHEST).getItem() instanceof CustomRendering) {
+        if (entity.getEquippedStack(EquipmentSlot.CHEST).getItem() instanceof HasCustomItemRendering) {
             VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.cactusArmorModel.getLayer(TEXTURE));
             int j = LivingEntityRenderer.getOverlay(entity, 0.0F);
             this.cactusArmorModel.setAngles(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);

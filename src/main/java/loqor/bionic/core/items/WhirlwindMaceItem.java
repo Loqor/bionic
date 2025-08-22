@@ -59,7 +59,7 @@ public class WhirlwindMaceItem extends MaceItem {
 
         // Send a packet to start playing the charge sound on the client
         if (!world.isClient) {
-            PlayChargeInstanceS2CPayload playChargeInstanceS2CPayload = new PlayChargeInstanceS2CPayload(user.getUuid(), this.getMaxUseTime(stack, user));
+            PlayChargeInstanceS2CPayload playChargeInstanceS2CPayload = new PlayChargeInstanceS2CPayload(user.getUuid());
             for (ServerPlayerEntity player : PlayerLookup.world((ServerWorld) world)) {
                 ServerPlayNetworking.send(player, playChargeInstanceS2CPayload);
             }
@@ -74,19 +74,34 @@ public class WhirlwindMaceItem extends MaceItem {
         if (!(user instanceof PlayerEntity player)) return;
         int charge = this.getMaxUseTime(stack, user) - remainingUseTicks;
         if (charge >= CHARGE_TIME) {
-            if (!world.isClient) {
+            if (!world.isClient()) {
+                // Launch the player upward and trigger explosion effects for others
                 player.setVelocity(0, 1.5, 0);
                 player.velocityModified = true;
-                // This explosion does not affect the user. It affects others in its radius, but we have to use the setVelocity instead because silly Minecraft things. - Loqor
-                user.getWorld().createExplosion(user, null, EXPLOSION_BEHAVIOR, user.getX(), user.getY(), user.getZ(), 1.2F, false, World.ExplosionSourceType.TRIGGER, ParticleTypes.GUST_EMITTER_SMALL, ParticleTypes.GUST_EMITTER_LARGE, SoundEvents.ENTITY_WIND_CHARGE_WIND_BURST);
+                user.getWorld().createExplosion(
+                        user, null, EXPLOSION_BEHAVIOR,
+                        user.getX(), user.getY(), user.getZ(),
+                        1.2F, false, World.ExplosionSourceType.TRIGGER,
+                        ParticleTypes.GUST_EMITTER_SMALL, ParticleTypes.GUST_EMITTER_LARGE,
+                        SoundEvents.ENTITY_WIND_CHARGE_WIND_BURST
+                );
                 player.getItemCooldownManager().set(this, COOLDOWN_TICKS);
-                world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_ENDER_DRAGON_FLAP, SoundCategory.PLAYERS, 1.0F, 1.2F);
-            }
-
-            for (int i = 0; i < 30; i++) {
-                double dx = (world.random.nextDouble() - 0.5) * 2;
-                double dz = (world.random.nextDouble() - 0.5) * 2;
-                world.addParticle(ParticleTypes.CLOUD, user.getX(), user.getY() + 1, user.getZ(), dx, 0.2, dz);
+                world.playSound(
+                        null, player.getX(), player.getY(), player.getZ(),
+                        SoundEvents.ENTITY_ENDER_DRAGON_FLAP, SoundCategory.PLAYERS,
+                        1.0F, 1.2F
+                );
+            } else {
+                // Only spawn particles on the client side
+                for (int i = 0; i < 30; i++) {
+                    double dx = (world.random.nextDouble() - 0.5) * 2;
+                    double dz = (world.random.nextDouble() - 0.5) * 2;
+                    world.addParticle(
+                            ParticleTypes.CLOUD,
+                            user.getX(), user.getY() + 1, user.getZ(),
+                            dx, 0.2, dz
+                    );
+                }
             }
         }
     }
