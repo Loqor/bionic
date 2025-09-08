@@ -9,7 +9,9 @@ import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -22,6 +24,8 @@ public class Bionic implements ModInitializer {
 	public static final String MOD_ID = "bionic";
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+
+	public static final SimpleParticleType FEATHER_PARTICLE = FabricParticleTypes.simple();
 
 	public static final RegistryKey<ItemGroup> BIONIC_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), of("bionic_group"));
 
@@ -47,6 +51,9 @@ public class Bionic implements ModInitializer {
 
 		// This is for the payloads to play the looping charge sound for the mace. - Loqor
 		BionicPayloads.initialize();
+
+		// Custom feather particle
+		Registry.register(Registries.PARTICLE_TYPE, of("feather_particle"), FEATHER_PARTICLE);
 
 		registerEntityAttributes();
 

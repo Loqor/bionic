@@ -1,12 +1,12 @@
 {
-	"required": true,
-	"package": "loqor.bionic.mixin.client",
-	"compatibilityLevel": "JAVA_21",
-	"client": [
-		"ArmorFeatureRendererMixin",
-		"PlayerEntityRendererMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
+  "required": true,
+  "package": "loqor.bionic.mixin.client",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "ArmorFeatureRendererMixin",
+    "PlayerEntityRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }

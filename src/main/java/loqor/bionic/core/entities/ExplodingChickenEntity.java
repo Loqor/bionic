@@ -7,11 +7,14 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+import net.minecraft.world.explosion.Explosion;
+import net.minecraft.world.explosion.ExplosionBehavior;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -82,12 +85,12 @@ public class ExplodingChickenEntity extends ChickenEntity {
         World var2 = this.getWorld();
         if (var2 instanceof ServerWorld serverWorld) {
             this.dead = true;
-            serverWorld.createExplosion(this, this.getX(), this.getY(), this.getZ(), 2f, World.ExplosionSourceType.MOB);
+            serverWorld.createExplosion(this, Explosion.createDamageSource(serverWorld, this), null, this.getX(), this.getY(), this.getZ(),
+                    2f, false, World.ExplosionSourceType.MOB, ParticleTypes.FLASH, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.ENTITY_GENERIC_EXPLODE);
             this.spawnEffectsCloud();
             this.onRemoval(Entity.RemovalReason.KILLED);
             this.discard();
         }
-
     }
 
     @Override
@@ -109,7 +112,6 @@ public class ExplodingChickenEntity extends ChickenEntity {
 
             this.getWorld().spawnEntity(areaEffectCloudEntity);
         }
-
     }
 
     private @NotNull AreaEffectCloudEntity getAreaEffectCloudEntity() {
