@@ -4,7 +4,6 @@ import loqor.bionic.Bionic;
 import loqor.bionic.core.BionicEntityTypes;
 import loqor.bionic.core.BionicItems;
 import net.minecraft.entity.*;
-import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -18,11 +17,6 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Collection;
-
-import static net.minecraft.entity.projectile.AbstractWindChargeEntity.EXPLOSION_BEHAVIOR;
 
 
 public class ExplodingEggEntity extends ThrownItemEntity {
@@ -33,17 +27,17 @@ public class ExplodingEggEntity extends ThrownItemEntity {
 
     public ExplodingEggEntity(World world, LivingEntity owner) {
         super(BionicEntityTypes.EXPLODING_EGG_ENTITY_TYPE, owner, world);
-        this.fuseTime = 90; // default fuse time
+        this.fuseTime = 90;
     }
 
     public ExplodingEggEntity(World world, double x, double y, double z, ItemStack stack) {
         super(BionicEntityTypes.EXPLODING_EGG_ENTITY_TYPE, x, y, z, world);
-        this.fuseTime = 90; // default fuse time
+        this.fuseTime = 90;
     }
 
     public ExplodingEggEntity(EntityType<ExplodingEggEntity> explodingEggEntityEntityType, World world) {
         super(explodingEggEntityEntityType, world);
-        this.fuseTime = 90; // default fuse time
+        this.fuseTime = 90;
     }
 
     public void handleStatus(byte status) {
@@ -109,14 +103,15 @@ public class ExplodingEggEntity extends ThrownItemEntity {
 
     protected void onCollision(HitResult hitResult) {
         super.onCollision(hitResult);
+
         if (!this.getWorld().isClient) {
-            int i = 6 + this.random.nextInt(3); // 6, 7, or 8
+            int i = 6 + this.random.nextInt(3);
             for (int j = 0; j < i; ++j) {
                 double angle = 2 * Math.PI * this.random.nextDouble();
-                double speed = 0.5 + this.random.nextDouble() * 0.5; // 0.5 - 1.0
+                double speed = 0.5 + this.random.nextDouble() * 0.5;
                 double velocityX = Math.cos(angle) * speed;
                 double velocityZ = Math.sin(angle) * speed;
-                double velocityY = 0;//0.1 + this.random.nextDouble() * 0.1; // 0.2 - 0.4
+                double velocityY = 0.1 + this.random.nextDouble() * 0.1;
 
                 ExplodingChickenEntity chickenEntity = new ExplodingChickenEntity(BionicEntityTypes.EXPLODING_CHICKEN, this.getWorld());
                 chickenEntity.setBreedingAge(-24000);
@@ -127,8 +122,6 @@ public class ExplodingEggEntity extends ThrownItemEntity {
 
             this.getWorld().sendEntityStatus(this, EntityStatuses.PLAY_DEATH_SOUND_OR_ADD_PROJECTILE_HIT_PARTICLES);
             this.explode();
-            //this.getWorld().createExplosion(this, null, null, this.getX(), this.getY(), this.getZ(), 0, false, World.ExplosionSourceType.BLOCK, ParticleTypes.FLASH, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.ENTITY_GENERIC_EXPLODE);
-            this.getWorld().addParticle(ParticleTypes.CHERRY_LEAVES, this.getX(), this.getY(), this.getZ(), 1, 0.0, 0.0);
         }
     }
 
@@ -139,11 +132,18 @@ public class ExplodingEggEntity extends ThrownItemEntity {
 
     private void explode() {
         World var2 = this.getWorld();
+
         if (var2 instanceof ServerWorld serverWorld) {
-            serverWorld.createExplosion(this, this.getX(), this.getY(), this.getZ(), 2f, World.ExplosionSourceType.MOB);
+            serverWorld.createExplosion(this, null, null, this.getX(), this.getY(), this.getZ(), 0f, false, World.ExplosionSourceType.MOB, ParticleTypes.FLASH, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.ENTITY_GENERIC_EXPLODE);
+            double vx = (this.random.nextBoolean() ? 1 : -1) * this.random.nextDouble() * 1.25f;
+            double vy = (this.random.nextBoolean() ? 1 : -1) * this.random.nextDouble() * 0.5f;
+            double vz = (this.random.nextBoolean() ? 1 : -1) * this.random.nextDouble() * 1.25f;
+            serverWorld.spawnParticles(Bionic.FEATHER_PARTICLE, this.getX(), this.getY(), this.getZ(), 50, vx, vy, vz, 1);
+            this.playSound(SoundEvents.ENTITY_CHICKEN_DEATH, 1,this.random.nextFloat() + 0.2f);
             this.onRemoved();
             this.discard();
         }
+
     }
-    
+
 }

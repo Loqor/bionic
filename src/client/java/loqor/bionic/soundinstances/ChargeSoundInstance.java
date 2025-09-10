@@ -28,7 +28,7 @@ public class ChargeSoundInstance extends MovingSoundInstance {
     public static final Map<PlayerEntity, ChargeSoundInstance> INSTANCES = new HashMap<>();
 
     public ChargeSoundInstance(PlayerEntity player, boolean underwater) {
-        super(underwater ? SoundEvents.ENTITY_MINECART_INSIDE_UNDERWATER : SoundEvents.ENTITY_MINECART_INSIDE, SoundCategory.NEUTRAL, SoundInstance.createRandom());
+        super(SoundEvents.ENTITY_BREEZE_WHIRL, SoundCategory.NEUTRAL, SoundInstance.createRandom());
         this.player = player;
         this.underwater = underwater;
         this.attenuationType = AttenuationType.NONE;

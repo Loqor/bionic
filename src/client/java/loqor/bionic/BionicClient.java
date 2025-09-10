@@ -2,6 +2,7 @@ package loqor.bionic;
 
 import loqor.bionic.core.BionicEntityTypes;
 import loqor.bionic.core.BionicItems;
+import loqor.bionic.particles.FeatherParticle;
 import loqor.bionic.render.builtin.CactusArmorBuiltInRenderer;
 import loqor.bionic.render.builtin.WhirlwindMaceBuiltInRenderer;
 import loqor.bionic.render.entity.EggGrenadeItemRenderer;
@@ -20,7 +21,7 @@ public class BionicClient implements ClientModInitializer {
 		registerEntityRenderers();
 		registerBuiltInItemRenderers();
 		// For this example, we will use the end rod particle behaviour.
-		ParticleFactoryRegistry.getInstance().register(Bionic.FEATHER_PARTICLE, CloudParticle.CloudFactory::new);
+		ParticleFactoryRegistry.getInstance().register(Bionic.FEATHER_PARTICLE, FeatherParticle.Factory::new);
 	}
 
 	public void registerEntityRenderers() {

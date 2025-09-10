@@ -1,5 +1,6 @@
 package loqor.bionic.core.entities;
 
+import loqor.bionic.Bionic;
 import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -31,6 +32,7 @@ public class ExplodingChickenEntity extends ChickenEntity {
     private static final short DEFAULT_FUSE = 90;
     public ExplodingChickenEntity(EntityType<? extends ChickenEntity> entityType, World world) {
         super(entityType, world);
+        this.fuseTime = 28 + this.getRandom().nextInt(13);
     }
 
     @Override
@@ -88,6 +90,11 @@ public class ExplodingChickenEntity extends ChickenEntity {
             serverWorld.createExplosion(this, Explosion.createDamageSource(serverWorld, this), null, this.getX(), this.getY(), this.getZ(),
                     2f, false, World.ExplosionSourceType.MOB, ParticleTypes.FLASH, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.ENTITY_GENERIC_EXPLODE);
             this.spawnEffectsCloud();
+            double vx = (this.random.nextBoolean() ? 1 : -1) * this.random.nextDouble() * 1.25f;
+            double vy = (this.random.nextBoolean() ? 1 : -1) * this.random.nextDouble() * 0.5f;
+            double vz = (this.random.nextBoolean() ? 1 : -1) * this.random.nextDouble() * 1.25f;
+            serverWorld.spawnParticles(Bionic.FEATHER_PARTICLE, this.getX(), this.getY(), this.getZ(), 50, vx, vy, vz, 1);
+            this.playSound(SoundEvents.ENTITY_CHICKEN_DEATH);
             this.onRemoval(Entity.RemovalReason.KILLED);
             this.discard();
         }
