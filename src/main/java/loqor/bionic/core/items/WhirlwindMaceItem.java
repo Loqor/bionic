@@ -1,5 +1,6 @@
 package loqor.bionic.core.items;
 
+import loqor.bionic.Bionic;
 import loqor.bionic.core.networking.payloads.PlayChargeInstanceS2CPayload;
 import loqor.bionic.core.networking.payloads.StopChargeInstanceS2CPayload;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
@@ -23,6 +24,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 import net.minecraft.particle.ParticleTypes;
 
@@ -36,6 +38,11 @@ public class WhirlwindMaceItem extends MaceItem {
 
     public WhirlwindMaceItem(Settings settings) {
         super(settings);
+    }
+
+    @Override
+    public UseAction getUseAction(ItemStack stack) {
+        return UseAction.NONE;
     }
 
     public static AttributeModifiersComponent createAttributeModifiers() {
@@ -122,6 +129,17 @@ public class WhirlwindMaceItem extends MaceItem {
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         super.inventoryTick(stack, world, entity, slot, selected);
+
+        if (!(world instanceof ServerWorld serverWorld)) return;
+
+        if (!(entity instanceof PlayerEntity player)) return;
+
+        if (player.getMainHandStack() != stack) return;
+
+        if (!player.isUsingItem()) return;
+
+        serverWorld.spawnParticles(Bionic.WIND_PARTICLE, entity.getX(), entity.getY() + 1, entity.getZ(),
+                5, 1, 1, 1, 1);
     }
 
     @Override
@@ -134,9 +152,11 @@ public class WhirlwindMaceItem extends MaceItem {
             if (magnitude > 0) {
                 dx /= magnitude;
                 dz /= magnitude;
-                target.addVelocity(dx * 1.5, 0.5, dz * 1.5);
+                target.addVelocity(dx * 0.2, 1.5, dz * 0.2);
                 target.velocityModified = true;
             }
+            ((ServerWorld) target.getWorld()).spawnParticles(Bionic.WIND_PARTICLE, target.getX(), target.getY() + 1, target.getZ(),
+                    50, 1, 1, 1, 1);
             target.getWorld().createExplosion(target, null, EXPLOSION_BEHAVIOR, target.getX(), target.getEyeY(), target.getZ(), 0f, false, World.ExplosionSourceType.TRIGGER, ParticleTypes.GUST_EMITTER_SMALL, ParticleTypes.GUST_EMITTER_LARGE, SoundEvents.ENTITY_WIND_CHARGE_WIND_BURST);
             target.damage(attacker.getDamageSources().playerAttack((PlayerEntity) attacker), 6.0F);
         }

@@ -26,6 +26,7 @@ public class Bionic implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	public static final SimpleParticleType FEATHER_PARTICLE = FabricParticleTypes.simple();
+	public static final SimpleParticleType WIND_PARTICLE = FabricParticleTypes.simple();
 
 	public static final RegistryKey<ItemGroup> BIONIC_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), of("bionic_group"));
 
@@ -54,6 +55,7 @@ public class Bionic implements ModInitializer {
 
 		// Custom feather particle
 		Registry.register(Registries.PARTICLE_TYPE, of("feather_particle"), FEATHER_PARTICLE);
+		Registry.register(Registries.PARTICLE_TYPE, of("wind_particle"), WIND_PARTICLE);
 
 		registerEntityAttributes();
 
