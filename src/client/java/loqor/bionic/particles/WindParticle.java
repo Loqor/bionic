@@ -31,6 +31,10 @@ public class WindParticle extends SpriteBillboardParticle {
         return 240 | k << 16;
     }
 
+    public Rotator getRotator() {
+        return Rotator.Y_AND_W_ONLY;
+    }
+
     public void tick() {
         super.tick();
         if (!this.dead) {
